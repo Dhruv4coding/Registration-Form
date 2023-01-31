@@ -1,0 +1,55 @@
+body{
+    background-color: grey;
+}
+
+.heading{
+    padding: 1rem;
+}
+
+.color {
+    background-color: #ffca2c;
+    padding: 0px 0px 4px 0px;
+    margin: -48px -16px 21px -16px;
+}
+.container{
+    padding: 3rem 1rem;
+    margin:2rem auto ;
+    background-color: white;
+    width:40%
+}
+
+.input-group-text{
+    border-radius: 0;
+}
+
+input[type]{
+    border-radius: 0;
+}
+
+.form-select{
+    border-radius: 0;
+}
+
+
+@media only screen and (max-width: 600px) {
+    
+    .container{
+        width: 80%;
+      
+    }
+  }
+
+  @media only screen and (max-width: 1180px) {
+    
+    .container{
+        width: 60%;
+      
+    }
+  }
+
+.btn{
+    border-radius: 0%;
+    color: white;
+}
+
+
