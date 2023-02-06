@@ -2,7 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser")
 const ejs = require("ejs");
 const mongoose = require("mongoose");
-const alert = require('alert');
+
 
 require('dotenv').config()
 mongoose.set('strictQuery', true);
@@ -11,6 +11,7 @@ const app = express();
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.set('view engine', 'ejs');
+
 
 mongoose.connect(process.env.MONGO_DB_URL  , ()=>{
     console.log("db is connected");
@@ -39,8 +40,7 @@ app.post("/", (req, res) => {
         
         if(err){
             console.log(err)
-            alert("try again");
-            res.redirect("/");
+            res.render("js")
         }
 
         if (userData) {
@@ -49,14 +49,14 @@ app.post("/", (req, res) => {
             }
 
             else {
-                alert("try again");
-                res.redirect("/");
+             
+                res.render('login', {message: "Password is wrong"})
             }
         }
 
         else {
-            alert("try again");
-            res.redirect("/");
+            
+            res.render('login', {message: "Email or Password is wrong"})
         }
 
 
@@ -82,9 +82,13 @@ app.post("/registration", (req, res) => {
     }
 
     else {
-        alert("password and Repeat Password dont match");
-        res.render("registration")
+        
+        res.render('registration', {message: "Both Password is not matching"})
     }
+})
+
+app.post("/js" , (req , res) => {
+    res.render("/login")
 })
 
 app.listen("3000", (req, res) => {
