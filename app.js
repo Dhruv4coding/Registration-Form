@@ -12,7 +12,9 @@ app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.set('view engine', 'ejs');
 
-mongoose.connect("mongodb+srv://Dhruv-admin:" + process.env.MONGO_DB_PASS + "@cluster0.gtzmx2u.mongodb.net/formDB")
+mongoose.connect(process.env.MONGO_DB_URL  , ()=>{
+    console.log("db is connected");
+})
 
 const regSchema = new mongoose.Schema({
     Fname: String,
