@@ -13,7 +13,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.set('view engine', 'ejs');
 
 
-mongoose.connect(process.env.MONGO_DB_URL  , ()=>{
+mongoose.connect(process.env.MONGO_DB_URL, () => {
     console.log("db is connected");
 })
 
@@ -34,11 +34,9 @@ app.post("/", (req, res) => {
     const loginId = req.body.login;
     const pass = req.body.pass;
 
-
-
     Data.findOne({ email: loginId }, (err, userData) => {
-        
-        if(err){
+
+        if (err) {
             console.log(err)
             res.render("js")
         }
@@ -49,14 +47,14 @@ app.post("/", (req, res) => {
             }
 
             else {
-             
-                res.render('login', {message: "Password is wrong"})
+
+                res.render('login', { message: "Password is wrong" })
             }
         }
 
         else {
-            
-            res.render('login', {message: "Email or Password is wrong"})
+
+            res.render('login', { message: "Email or Password is wrong" })
         }
 
 
@@ -68,29 +66,43 @@ app.get("/registration", (req, res) => {
 })
 
 app.post("/registration", (req, res) => {
-    if (req.body.password === req.body.Rpassword) {
-        const data = new Data({
-            Fname: req.body.Fname,
-            Lname: req.body.Lname,
-            email: req.body.email,
-            password: req.body.password
-        })
+console.log(req.body.email);
+    Data.findOne({ email: req.body.email}, (err, userData) => {
 
-        data.save();
+        if (err) {
+            console.log(err)
 
-        res.redirect("/")
-    }
+        }
 
-    else {
-        
-        res.render('registration', {message: "Both Password is not matching"})
-    }
+        if (userData) {
+            res.render('registration', { message: "This account is already registered" })
+        }
+
+        else {
+            if (req.body.password === req.body.Rpassword) {
+                const data = new Data({
+                    Fname: req.body.Fname,
+                    Lname: req.body.Lname,
+                    email: req.body.email,
+                    password: req.body.password
+                })
+
+                data.save()
+                res.redirect("/")
+            }
+            else {
+
+                res.render('registration', { message: "Both Password is not matching" })
+            }
+        }
+
+    })
 })
 
-app.post("/js" , (req , res) => {
-    res.render("/login")
-})
+    app.post("/js", (req, res) => {
+        res.render("/login")
+    })
 
-app.listen("3000", (req, res) => {
-    console.log("server is running at 3000");
-})
+    app.listen("3000", (req, res) => {
+        console.log("server is running at 3000");
+    })
